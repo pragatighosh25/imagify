@@ -4,6 +4,7 @@ import BuyCredit from './pages/BuyCredit.jsx'
 import Result from './pages/Result.jsx'
 import { Route, Routes,  } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
+import Footer from './components/Footer.jsx'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/buy" element={<BuyCredit />} />
         <Route path="/result" element={<Result />} />
       </Routes>
+      <Footer />
     </div>
   )
 }
