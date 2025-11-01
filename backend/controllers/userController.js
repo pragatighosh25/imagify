@@ -1,6 +1,7 @@
 import userModel from "../models/userModels.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import razorpay from "razorpay";
 
 const registerUser = async (req, res) => {
   try{
@@ -78,4 +79,53 @@ const userCredits = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, userCredits };
+const razorpayInstance = new razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+const paymentRazorpay = async (req, res) => {
+  try {
+    const { userId, planId } = req.body;
+
+    const userData= await userModel.findById(userId);
+    if(!userData || !planId){
+      return res.status(404).json({ message: "User not found or plan ID missing", success: false });
+    }
+    let credits, plan, amount, date
+    switch (planId) {
+      case 'Basic':
+        credits = 100;
+        plan = "Basic";
+        amount = 10;
+        date = new Date();
+        break;
+      case 'Advanced':
+        credits = 500;
+        plan = "Advanced";
+        amount = 50;
+        date = new Date();
+        break;
+      case 'Business':
+        credits = 5000;
+        plan = "Business";
+        amount = 250;
+        date = new Date();
+        break;
+      default:
+        return res.status(400).json({ message: "Invalid plan ID", success: false });
+    }
+    const transactionData = {
+      userId,
+      plan,
+      credits,
+      amount,
+      date,
+    };
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message, success: false });
+  }
+};
+
+export { registerUser, loginUser, userCredits, paymentRazorpay };
