@@ -1,5 +1,7 @@
 import userModel from "../models/userModels.js";
 import FormData from "form-data";
+import axios from "axios";
+
 const generateImage = async (req, res) => {
   try {
     const { prompt, userId } = req.body;
@@ -13,7 +15,7 @@ const generateImage = async (req, res) => {
     const formData = new FormData();
     formData.append("prompt", prompt);
 
-    const { data } = await axios.post("https://clipdrop-api.co/cleanup/v1", formData, {
+    const { data } = await axios.post("https://clipdrop-api.co/text-to-image/v1", formData, {
       headers: {
         'x-api-key': process.env.CLIPDROP_API,
       },
@@ -29,7 +31,7 @@ const generateImage = async (req, res) => {
       creditBalance: user.creditBalance - 1
     });
 
-    res.status(200).json({ image: resultImage, credits: user.creditBalance - 1, success: true,message: "Image generated successfully"});
+    res.status(200).json({ credits: user.creditBalance - 1, success: true,message: "Image generated successfully", image: resultImage });
     }else{
       res.status(500).json({ message: "Image generation failed", success: false });
     }

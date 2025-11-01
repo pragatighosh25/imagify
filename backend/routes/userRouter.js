@@ -2,12 +2,12 @@ import { registerUser, loginUser, userCredits } from "../controllers/userControl
 import express from "express";
 import authMiddleware from "../middlewares/auth.js";
 
-const userrouter= express.Router();
+const userRouter= express.Router();
 
-userrouter.post("/register", registerUser);
-userrouter.post("/login", loginUser);
-userrouter.post("/credits", authMiddleware, userCredits);
+userRouter.post("/register", registerUser);
+userRouter.post("/login", loginUser);
+userRouter.post("/credits", authMiddleware, userCredits);
 
-export default userrouter;
+export default userRouter;
 
 //localhost:3000/api/user/register
