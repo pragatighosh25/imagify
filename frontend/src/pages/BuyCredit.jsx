@@ -2,9 +2,29 @@ import React, { useContext } from 'react'
 import { assets, plans } from '../assets/assets.js'
 import { AppContext } from '../context/AppContext.jsx';
 import {motion} from 'framer-motion'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const BuyCredit = () => {
-  const {user}= useContext(AppContext);
+  const {user, backendUrl, loadCreditsData, token, setShowLogin}= useContext(AppContext);
+
+  const navigate= useNavigate();
+
+  const paymentRazorpay= async(planId)=>{
+    try {
+      if(!user){
+        setShowLogin(true);
+        return;
+      }
+      const {data} = await axios.post(`${backendUrl}/api/user/pay-razor`, {planId}, {
+        headers: {token}
+      });
+      if(data.success){
+        
+      }} catch (error) {
+        console.error(error);
+      }
+  }
 
   return (
     <motion.div
