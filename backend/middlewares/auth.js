@@ -9,8 +9,9 @@ const authMiddleware = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!req.body) req.body = {};
     if(decoded.id){
-      req.body.userID = decoded.id;
+      req.body.userId = decoded.id;
     }else{
       return res.status(401).json({ message: "Unauthorized Login", success: false });
     };
