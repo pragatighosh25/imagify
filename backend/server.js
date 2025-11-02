@@ -30,6 +30,7 @@ app.use(
     credentials: true,
   })
 );
+console.log("Mongo URI:", process.env.MONGO_URI ? "✅ Loaded" : "❌ Not loaded");
 
 app.use(express.json());
 
