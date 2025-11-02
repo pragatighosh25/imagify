@@ -1,11 +1,23 @@
 import mongoose from "mongoose";
 
-const connectDB = async () => {
-  mongoose.connection.on("connected", () => {
-      console.log("Mongoose connected to DB");
-  });
-  await mongoose.connect(`${process.env.MONGO_URI}/imagify`);
+let isConnected = false;
 
+const connectDB = async () => {
+  if (isConnected) {
+    console.log("✅ Using existing MongoDB connection");
+    return;
+  }
+
+  try {
+    const conn = await mongoose.connect(`${process.env.MONGO_URI}/imagify`, {
+      serverSelectionTimeoutMS: 5000,
+    });
+    isConnected = true;
+    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error.message);
+    throw new Error("MongoDB connection failed");
+  }
 };
 
 export default connectDB;
