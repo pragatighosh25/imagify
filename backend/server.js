@@ -8,7 +8,15 @@ import imageRouter from './routes/imageRouter.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-await connectDB();
+(async () => {
+  try {
+    await connectDB();
+    console.log("MongoDB connected successfully");
+  } catch (err) {
+    console.error("MongoDB connection failed:", err.message);
+  }
+})();
+
 
 
 const allowedOrigins = [
@@ -44,8 +52,5 @@ app.get("/", (req, res) => {
   res.send("Imagify backend is running");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
 
 export default app;
