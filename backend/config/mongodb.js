@@ -9,13 +9,11 @@ const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(`${process.env.MONGO_URI}/imagify`, {
-      serverSelectionTimeoutMS: 5000,
-    });
+    const conn = await mongoose.connect(process.env.MONGO_URI);
     isConnected = true;
-    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+    console.log(` MongoDB connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error.message);
+    console.error(" MongoDB connection error:", error.message);
     throw new Error("MongoDB connection failed");
   }
 };
