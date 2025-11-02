@@ -17,13 +17,10 @@ const PORT = process.env.PORT || 3000;
   }
 })();
 
-
-
 const allowedOrigins = [
   "https://imagifyfrontend-lovat.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173",
 ];
-
 
 app.use(
   cors({
@@ -34,16 +31,7 @@ app.use(
   })
 );
 
-
-app.options("*", cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-}));
-
 app.use(express.json());
-
 
 app.use("/api/user", userRouter);
 app.use("/api/image", imageRouter);
@@ -51,6 +39,5 @@ app.use("/api/image", imageRouter);
 app.get("/", (req, res) => {
   res.send("Imagify backend is running");
 });
-
 
 export default app;
