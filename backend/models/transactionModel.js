@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const transactionSchema = new mongoose.Schema({
   userId: {
-    type: string,
-    ref: "User",
+    type: String,
     required: true,
   },
   plan : {
